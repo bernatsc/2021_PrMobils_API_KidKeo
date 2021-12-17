@@ -18,7 +18,7 @@ func main() {
 	port := os.Getenv("PORT")
 	//Si no ens ho especifica triem nosaltres
 	if port == "" {
-		port = "8000"
+		port = "80"
 	}
 	fmt.Println(port)
 	_ = http.ListenAndServe(":"+port, nil)
