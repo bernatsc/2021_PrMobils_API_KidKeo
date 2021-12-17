@@ -1,13 +1,18 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 )
 
 func main() {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprint(w, "Hello World!")
+	})
+
 	fs := http.FileServer(http.Dir("./json"))
-	http.Handle("/static/", http.StripPrefix("/static/", fs))
+	http.Handle("/json/", http.StripPrefix("/json/", fs))
 
 	//Heroku ens diu a quin port
 	port := os.Getenv("PORT")
@@ -15,6 +20,6 @@ func main() {
 	if port == "" {
 		port = "8000"
 	}
-
+	fmt.Println(port)
 	_ = http.ListenAndServe(":"+port, nil)
 }
