@@ -1,1 +1,1 @@
-web: goExec
+web: bin/goExec
