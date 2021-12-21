@@ -5,6 +5,6 @@ with open('./in.txt', 'r') as inFIle:
     with open('./out.txt', 'w') as out:
         for line in file_data:
             out.write(line[:-1]);
-            out.write('\\n');
+            out.write('\\\\n');
 
 
