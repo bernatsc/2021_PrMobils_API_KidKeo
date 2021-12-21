@@ -16,10 +16,12 @@ func main() {
 
 	//Heroku ens diu a quin port
 	port := os.Getenv("PORT")
+
 	//Si no ens ho especifica triem nosaltres
 	if port == "" {
 		port = "80"
 	}
+
 	fmt.Println(port)
 	_ = http.ListenAndServe(":"+port, nil)
 }
