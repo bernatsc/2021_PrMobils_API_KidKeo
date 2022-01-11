@@ -59,7 +59,7 @@ func handlerSongs(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
-		fmt.Printf("%+v\n", newSong)
+		fmt.Printf("New song: %+v\n", newSong)
 
 		//Llegim el fitxer json
 		file, _ := ioutil.ReadFile("./json/lyrics.json")
@@ -69,13 +69,13 @@ func handlerSongs(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
-		fmt.Printf("%+v\n", songsFile)
+		//fmt.Printf("%+v\n", songsFile)
 
 		//Afegim la canço
 		songsFile.Number++
 		songsFile.Songs = append(songsFile.Songs, newSong)
 
-		fmt.Printf("%+v\n", songsFile)
+		//fmt.Printf("%+v\n", songsFile)
 
 		//Tornem a escriure el fitxer
 		file, err = json.MarshalIndent(songsFile, "", "    ")
@@ -87,20 +87,6 @@ func handlerSongs(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			panic(err)
 		}
-
-		/*
-			// Call ParseForm() to parse the raw query and update r.PostForm and r.Form.
-			if err := r.ParseForm(); err != nil {
-				fmt.Fprintf(w, "ParseForm() err: %v", err)
-				return
-			}
-			fmt.Fprintf(w, "Post from website! r.PostFrom = %v\n", r.PostForm)
-			name := r.FormValue("name")
-			address := r.FormValue("address")
-			fmt.Fprintf(w, "Name = %s\n", name)
-			fmt.Fprintf(w, "Address = %s\n", address)
-		*/
-
 	default:
 		fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
 	}
