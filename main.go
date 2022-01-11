@@ -69,9 +69,13 @@ func handlerSongs(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
+		fmt.Printf("%+v\n", songsFile)
+
 		//Afegim la canço
 		songsFile.Number++
 		songsFile.Songs = append(songsFile.Songs, newSong)
+
+		fmt.Printf("%+v\n", songsFile)
 
 		//Tornem a escriure el fitxer
 		file, err = json.MarshalIndent(songsFile, "", "    ")
