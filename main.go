@@ -59,18 +59,30 @@ func handlerSongs(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
+		fmt.Printf("%+v\n", newSong)
+
 		//Llegim el fitxer json
 		file, _ := ioutil.ReadFile("./json/lyrics.json")
 		songsFile := Songs{}
-		_ = json.Unmarshal([]byte(file), &songsFile)
+		err = json.Unmarshal([]byte(file), &songsFile)
+		if err != nil {
+			panic(err)
+		}
 
 		//Afegim la canço
 		songsFile.Number++
 		songsFile.Songs = append(songsFile.Songs, newSong)
 
 		//Tornem a escriure el fitxer
-		file, _ = json.MarshalIndent(songsFile, "", "    ")
-		_ = ioutil.WriteFile("./json/lyrics.json", file, 0644)
+		file, err = json.MarshalIndent(songsFile, "", "    ")
+		if err != nil {
+			panic(err)
+		}
+
+		err = ioutil.WriteFile("./json/lyrics.json", file, 0644)
+		if err != nil {
+			panic(err)
+		}
 
 		/*
 			// Call ParseForm() to parse the raw query and update r.PostForm and r.Form.
