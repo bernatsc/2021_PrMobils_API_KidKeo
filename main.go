@@ -30,7 +30,7 @@ func main() {
 	http.Handle("/json/", http.StripPrefix("/json/", fs))
 
 	//Add song
-	http.HandleFunc("/songs/", handlerSongs)
+	http.HandleFunc("/songs", handlerSongs)
 
 	//Heroku ens diu a quin port
 	port := os.Getenv("PORT")
@@ -45,10 +45,6 @@ func main() {
 }
 
 func handlerSongs(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		http.Error(w, "404 not found.", http.StatusNotFound)
-		return
-	}
 
 	switch r.Method {
 	case "GET":
