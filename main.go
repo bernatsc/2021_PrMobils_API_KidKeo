@@ -48,7 +48,9 @@ func handlerSongs(w http.ResponseWriter, r *http.Request) {
 
 	switch r.Method {
 	case "GET":
-		http.ServeFile(w, r, "./json/lyrics.json")
+		file, _ := ioutil.ReadFile("./json/lyrics.json")
+		w.Write(file)
+		//http.ServeFile(w, r, "./json/lyrics.json")
 	case "POST":
 
 		//Llegim la song de la peticio post
