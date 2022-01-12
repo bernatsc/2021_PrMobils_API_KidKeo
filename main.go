@@ -61,34 +61,39 @@ func handlerSongs(w http.ResponseWriter, r *http.Request) {
 			panic(err)
 		}
 
-		fmt.Printf("New song: %+v\n", newSong)
+		if newSong.Title != "" && newSong.Artist != "" && newSong.Lyrics != "" {
+			fmt.Printf("New song: %+v\n", newSong)
 
-		//Llegim el fitxer json
-		file, _ := ioutil.ReadFile("./json/lyrics.json")
-		songsFile := Songs{}
-		err = json.Unmarshal([]byte(file), &songsFile)
-		if err != nil {
-			panic(err)
+			//Llegim el fitxer json
+			file, _ := ioutil.ReadFile("./json/lyrics.json")
+			songsFile := Songs{}
+			err = json.Unmarshal([]byte(file), &songsFile)
+			if err != nil {
+				panic(err)
+			}
+
+			//fmt.Printf("%+v\n", songsFile)
+
+			//Afegim la canço
+			songsFile.Number++
+			songsFile.Songs = append(songsFile.Songs, newSong)
+
+			//fmt.Printf("%+v\n", songsFile)
+
+			//Tornem a escriure el fitxer
+			file, err = json.MarshalIndent(songsFile, "", "    ")
+			if err != nil {
+				panic(err)
+			}
+
+			err = ioutil.WriteFile("./json/lyrics.json", file, 0644)
+			if err != nil {
+				panic(err)
+			}
+		} else {
+			w.WriteHeader(http.StatusBadRequest)
 		}
 
-		//fmt.Printf("%+v\n", songsFile)
-
-		//Afegim la canço
-		songsFile.Number++
-		songsFile.Songs = append(songsFile.Songs, newSong)
-
-		//fmt.Printf("%+v\n", songsFile)
-
-		//Tornem a escriure el fitxer
-		file, err = json.MarshalIndent(songsFile, "", "    ")
-		if err != nil {
-			panic(err)
-		}
-
-		err = ioutil.WriteFile("./json/lyrics.json", file, 0644)
-		if err != nil {
-			panic(err)
-		}
 	default:
 		fmt.Fprintf(w, "Sorry, only GET and POST methods are supported.")
 	}
